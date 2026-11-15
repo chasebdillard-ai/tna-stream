@@ -386,14 +386,104 @@
     s.addEventListener("click", function (e) { if (e.target.closest("[data-go]")) return; var o = SLIDE[s.id]; if (o) openPlayer(o.ctx, o.pos, s.querySelector('[data-f="play"]')); });
   });
 
+  /* ---------- Continue Watching (this device only, localStorage "tna_cw") ---------- */
+  var CWK = "tna_cw", CW_LIST = [], IDX = {};
+  CAT.concat(CLIPS, LIB, XD).forEach(function (d) { if (d.id && !IDX[d.id]) IDX[d.id] = d; });
+  function cwLoad() { try { var a = JSON.parse(localStorage.getItem(CWK) || "[]"); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+  function cwSave(a) { try { localStorage.setItem(CWK, JSON.stringify(a.slice(0, 20))); } catch (e) { /* storage blocked or full */ } }
+  function cwGet(id) { var a = cwLoad(); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
+  function cwRecord(d, ctx, pos) {
+    if (!d || !d.id) return;
+    var a = cwLoad(), old = null;
+    a = a.filter(function (x) { if (x.id === d.id) { old = x; return false; } return true; });
+    var it = { id: d.id, title: d.title, thumb: thumb(d.id, "mqdefault"), show: String(disp(d).kicker || "").replace(/\s*·\s*(undefined|null)$/, ""), ts: Date.now(), prog: 0, dur: d.mins ? Math.round(d.mins * 60) : 0 };
+    if (ctx === "cw") { if (old) { it.ctx = old.ctx; it.pos = old.pos; } } else { it.ctx = ctx; it.pos = pos; }
+    if (old) { it.prog = old.prog || 0; if (old.dur) it.dur = old.dur; }
+    a.unshift(it); cwSave(a);
+  }
+  function cwProgress(id, t, dd) {
+    var a = cwLoad(), ch = false;
+    a.forEach(function (x) { if (x.id === id) { if (dd > 0) x.dur = Math.round(dd); x.prog = (dd > 0 && t > dd - 30) ? 0 : Math.round(t); ch = true; } });
+    if (ch) cwSave(a);
+  }
+  function cwRemove(id) { cwSave(cwLoad().filter(function (x) { return x.id !== id; })); }
+  function cwStart(id) { var x = cwGet(id); if (!x || !x.prog || x.prog <= 10) return 0; if (x.dur && x.prog >= x.dur - 30) return 0; return x.prog; }
+  (function cwMount() {
+    var st = doc.createElement("style");
+    st.textContent = "#cw[hidden]{display:none!important}.x-cw{position:relative;min-width:0}.x-cw .x-card{width:100%}" +
+      ".x-cwbar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.25);z-index:3}.x-cwbar>span{display:block;height:100%;background:var(--x-red,#e1251b)}" +
+      ".x-cwx{position:absolute;top:6px;right:6px;z-index:5;width:28px;height:28px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.78);color:#fff;font:700 16px/1 sans-serif;cursor:pointer;padding:0;display:grid;place-items:center}" +
+      ".x-cwx:hover,.x-cwx:focus-visible{background:var(--x-red,#e1251b);outline:none}";
+    doc.head.appendChild(st);
+    var sec = doc.createElement("div");
+    sec.className = "x-block"; sec.id = "cw"; sec.hidden = true;
+    sec.setAttribute("role", "region"); sec.setAttribute("aria-label", "Continue Watching");
+    sec.innerHTML = '<div class="x-shead"><div class="x-shead__row"><h2 class="x-h2">Continue Watching</h2></div>' +
+      '<p class="x-sub">Pick up where you left off.</p><span class="x-stripe" aria-hidden="true"></span></div><div class="x-rail" id="rail-cw"></div>';
+    var home = doc.getElementById("view-home"), car = home && home.querySelector(".x-carousel");
+    if (!home) return;
+    if (car && car.parentNode === home) home.insertBefore(sec, car.nextSibling); else home.insertBefore(sec, home.firstChild);
+  })();
+  function drawCW() {
+    var sec = doc.getElementById("cw"), rail = doc.getElementById("rail-cw");
+    if (!sec || !rail) return;
+    CW_LIST = cwLoad().filter(function (x) { return x && x.id && IDX[x.id]; });
+    CTX.cw = CW_LIST.map(function (x) { return IDX[x.id]; });
+    sec.hidden = !CW_LIST.length;
+    rail.innerHTML = CW_LIST.map(function (x, i) {
+      var d = IDX[x.id], durS = x.dur || (d.mins ? d.mins * 60 : 0), pct = x.prog && durS ? Math.max(2, Math.min(100, Math.round(x.prog / durS * 100))) : 0;
+      var html = card(d, "cw", i, { rail: true });
+      if (pct) html = html.replace('</span><span class="x-card__body">', '<span class="x-cwbar" aria-hidden="true"><span style="width:' + pct + '%"></span></span></span><span class="x-card__body">');
+      return '<div class="x-cw">' + html + '<button class="x-cwx" type="button" data-cwx="' + esc(x.id) + '" aria-label="' + esc("Remove " + d.title + " from Continue Watching") + '" title="Remove">×</button></div>';
+    }).join("");
+  }
+  doc.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("[data-cwx]");
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    cwRemove(b.getAttribute("data-cwx")); drawCW();
+  }, true);
+  var cwStop = function () {};
+  function cwWatch(f, id) {
+    var cwT = -1, cwD = 0, heard = false, saved = -1;
+    function ping() { try { f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: 1, channel: "widget" }), "*"); } catch (x) {} }
+    function onMsg(ev) {
+      if (!f.contentWindow || ev.source !== f.contentWindow) return;
+      if (!/(^|\.)youtube(-nocookie)?\.com$/.test(String(ev.origin).replace(/^https?:\/\//, "").replace(/:\d+$/, ""))) return;
+      var m = ev.data; if (typeof m === "string") { try { m = JSON.parse(m); } catch (x) { return; } }
+      if (!m || !m.info) return; heard = true;
+      if (typeof m.info.currentTime === "number") cwT = m.info.currentTime;
+      if (typeof m.info.duration === "number" && m.info.duration > 0) cwD = m.info.duration;
+    }
+    function flush() { if (cwT >= 0 && Math.round(cwT) !== saved) { saved = Math.round(cwT); cwProgress(id, cwT, cwD); } }
+    function onHide() { if (doc.visibilityState === "hidden") flush(); }
+    window.addEventListener("message", onMsg);
+    f.addEventListener("load", ping);
+    var pingT = setInterval(function () { if (!heard) ping(); }, 2000), saveT = setInterval(flush, 15000);
+    doc.addEventListener("visibilitychange", onHide);
+    window.addEventListener("pagehide", flush);
+    return function () { flush(); clearInterval(pingT); clearInterval(saveT); window.removeEventListener("message", onMsg); doc.removeEventListener("visibilitychange", onHide); window.removeEventListener("pagehide", flush); };
+  }
+
   /* ---------- player sheet ---------- */
   var sheet = doc.getElementById("sheet"), stage = doc.getElementById("stage"), page = doc.getElementById("top"), lastFocus = null;
   function openPlayer(ctx, pos, from) {
+    if (ctx === "cw") {
+      var cx = CW_LIST[pos], ol = cx && cx.ctx && CTX[cx.ctx];
+      if (cx && ol && ol[cx.pos] && ol[cx.pos].id === cx.id) { ctx = cx.ctx; pos = cx.pos; }
+    }
     var list = CTX[ctx], d = list && list[pos];
     if (!d) return;
     if (sheet.hidden) lastFocus = from || doc.activeElement;
-    stage.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(d.id) + '?autoplay=1&playsinline=1&rel=0" title="' + esc(d.title) +
+    try { cwStop(); } catch (x) {}
+    cwStop = function () {};
+    try { cwRecord(d, ctx, pos); } catch (x) {}
+    var cwFrom = 0, cwOrigin = "";
+    try { cwFrom = cwStart(d.id); cwOrigin = /^https?:/.test(location.origin || "") ? location.origin : ""; } catch (x) {}
+    stage.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(d.id) + '?autoplay=1&playsinline=1&rel=0&enablejsapi=1' +
+      (cwOrigin ? "&origin=" + encodeURIComponent(cwOrigin) : "") + (cwFrom ? "&start=" + cwFrom : "") + '" title="' + esc(d.title) +
       '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    try { var cwF = stage.querySelector("iframe"); if (cwF) cwStop = cwWatch(cwF, d.id); } catch (x) {}
     var t = disp(d);
     doc.getElementById("sheet-kicker").textContent = t.kicker;
     doc.getElementById("sheet-title").textContent = d.title;
@@ -437,8 +527,11 @@
   }
   function closePlayer() {
     if (sheet.hidden) return;
+    try { cwStop(); } catch (x) {}
+    cwStop = function () {};
     sheet.hidden = true;
     stage.innerHTML = "";
+    try { drawCW(); } catch (x) {}
     page.inert = false;
     doc.documentElement.style.overflow = "";
     if (lastFocus && lastFocus.focus && doc.contains(lastFocus)) lastFocus.focus();
@@ -511,6 +604,7 @@
   sInput.addEventListener("input", runSearch);
   sInput.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSearch(); });
 
+  drawCW();
   var start = (location.hash || "").replace("#", "");
   show(VIEWS.indexOf(start) >= 0 ? start : "home");
   window.TNA_TOTAL = { catalog: CAT.length, clips: CLIPS.length, library: LIB.length, xdiv: XD.length, episodes: EPS.length, total: CAT.length + CLIPS.length + LIB.length };
