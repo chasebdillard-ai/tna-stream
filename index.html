@@ -354,7 +354,65 @@
         .x-pop__close:hover, .x-pop__close:focus-visible { transform: none; }
       }
     </style>
-  </head>
+
+<!--tna-yellow--><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap" />
+<style id="tna-yellow">
+:root{--x-bg:#ffd400;--x-red:#0a0a0a;--x-red-dk:#000;--x-text:#0a0a0a;--x-dim:rgba(10,10,10,.72);--x-dim-2:rgba(10,10,10,.62);--x-line:rgba(10,10,10,.18);
+ --x-card:#0a0a0a;--x-card-2:#1a1a1a;--x-display:"Big Shoulders Display","Archivo",system-ui,sans-serif;--x-body:"Barlow","Figtree",system-ui,sans-serif}
+html,body{background:#ffd400}
+body{background-image:repeating-linear-gradient(-58deg,rgba(0,0,0,.035) 0 2px,transparent 2px 14px)}
+/* display type: big, upright, tight */
+.x-h1,.x-h2,.x-h3,.x-card__head,.x-slide__title,.x-era__name,.x-wordmark,.x-row__n,.x-xword{font-style:normal!important;text-transform:uppercase;letter-spacing:.005em!important}
+.x-h1{font-size:clamp(34px,9vw,52px)!important;font-weight:900!important}
+.x-h2{font-size:clamp(27px,6.6vw,36px)!important;font-weight:900!important}
+.x-slide__title{font-size:clamp(32px,8.4vw,52px)!important;line-height:.95!important}
+.x-card__head{font-size:19px!important;font-weight:800!important;line-height:1.05!important}
+.x-era__name{font-size:26px!important}
+/* dark surfaces keep light text + yellow highlights */
+.x-card,.x-hub,.x-era,.x-slide,.x-hero,.x-libtile,.x-xhero,.x-sheet,.x-top,.x-tabs,.x-search,.x-iconbtn,.x-chip,.x-sort,.x-note,.x-row{--x-text:#fff;--x-dim:rgba(255,255,255,.7);--x-dim-2:rgba(255,255,255,.62);--x-line:rgba(255,255,255,.14);color:var(--x-text)}
+.x-era .x-card{background:#1c1c1c}
+.x-row{background:#0a0a0a;border-radius:12px;padding:8px 10px}
+.x-top{background:rgba(10,10,10,.96)!important;border-bottom:4px solid #0a0a0a!important}
+.x-tabs{background:rgba(10,10,10,.97)!important;border-top:0!important}
+.x-tab{color:rgba(255,255,255,.62)}
+.x-tab[aria-current="page"]{color:#ffd400}
+/* page-level accents: black on yellow */
+.x-stripe::before{background:#0a0a0a!important}
+.x-stripe::after{background:#fff!important}
+.x-count{color:rgba(10,10,10,.75)}
+.x-count b{color:#0a0a0a!important}
+.x-sub{color:#0a0a0a!important}
+.x-chip[aria-pressed="true"],.x-sort button[aria-pressed="true"]{background:#ffd400!important;border-color:#ffd400!important;color:#0a0a0a!important}
+.x-dots button{background:rgba(10,10,10,.28)!important}
+.x-dots button[aria-current="true"]{background:#0a0a0a!important}
+.x-foot,.x-foot p{color:rgba(10,10,10,.75)}
+.x-foot a{color:#0a0a0a!important;text-decoration:underline}
+/* buttons */
+.x-play-btn{background:#0a0a0a;color:#ffd400}
+.x-slide .x-play-btn,.x-hero .x-play-btn,.x-xhero .x-play-btn,.x-sheet .x-play-btn{background:#ffd400;color:#0a0a0a}
+.x-playdot{background:#ffd400!important;color:#0a0a0a!important}
+.x-card:hover .x-playdot{background:#fff!important}
+.x-pin{background:#0a0a0a;color:#ffd400}
+.x-live{background:#0a0a0a;color:#ffd400;border:1px solid #ffd400}
+/* slide/hub/hero stripes: black + yellow read as white on dark */
+.x-slide::after{background:linear-gradient(100deg,#ffd400 0 46%,transparent 46% 52%,#fff 52% 68%,transparent 68%)!important}
+.x-hub::before,.x-libtile::before,.x-hero::before{filter:none;background:linear-gradient(118deg,transparent 0 66%,#ffd400 66% 76%,transparent 76% 80%,#fff 80% 85%,transparent 85%)!important;opacity:.35!important}
+.x-hub:hover,.x-libtile:hover{border-color:#ffd400!important}
+.x-card:focus-visible,.x-row:focus-visible{outline-color:#0a0a0a!important}
+.x-card.is-playing{outline-color:#ffd400!important}
+.x-hero::after{background:linear-gradient(248deg,transparent 0 72%,rgba(255,212,0,.55) 72% 78%,transparent 78%)!important}
+.x-libtile{background:linear-gradient(120deg,#000 0 45%,#2a2400 75%,#4d4200)!important}
+.x-year::after{background:repeating-linear-gradient(-60deg,#0a0a0a 0 8px,transparent 8px 12px,#fff 12px 16px,transparent 16px 20px)!important;opacity:.8!important}
+.x-era .x-year::after{background:repeating-linear-gradient(-60deg,#ffd400 0 8px,transparent 8px 12px,#fff 12px 16px,transparent 16px 20px)!important}
+.x-note{border-left-color:#ffd400!important}
+.x-top{box-shadow:0 -60px 0 #0a0a0a}
+.x-era .x-count,.x-card .x-count,.x-hero .x-count{color:rgba(255,255,255,.72)!important}
+.x-era .x-count b,.x-hero .x-count b{color:#ffd400!important}
+/* LIVE TV button */
+.lv-btn{background:#0a0a0a!important;color:#ffd400!important;border:2px solid #ffd400!important}
+.lv-dot{background:#ffd400!important}
+</style><!--/tna-yellow-->
+</head>
   <body>
     <div class="page" id="top">
       <div class="x-app">
