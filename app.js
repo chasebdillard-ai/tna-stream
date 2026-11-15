@@ -17,7 +17,10 @@
   var KEY = {};
   Object.keys(SHOWS).forEach(function (k) { KEY[SHOWS[k]] = k; });
 
-  CAT.forEach(function (d, i) { d._i = i; d._k = KEY[d.show]; });
+  CAT.forEach(function (d, i) {
+    d._i = i; d._k = KEY[d.show];
+    if (!d.id && d.url) { var m = String(d.url).match(/(?:[?&]v=|youtu\.be\/|\/embed\/)([\w-]{6,})/); if (m) d.id = m[1]; }
+  });
   CLIPS.forEach(function (d, i) { d._i = i; d._k = "clip"; d.year = d.date ? Number(d.date.slice(0, 4)) : null; });
   var by = {};
   Object.keys(SHOWS).forEach(function (k) { by[k] = CAT.filter(function (d) { return d._k === k; }); });
