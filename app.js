@@ -280,7 +280,7 @@
   /* ---------- X-Division playlist ---------- */
   CTX.xdiv = XD;
   SLIDE["slide-xdiv"] = { ctx: "xdiv", pos: 0 };
-  doc.getElementById("rail-xdiv").innerHTML = XD.map(function (d, i) { return card(d, "xdiv", i, { rail: true, pin: String(i + 1), pinY: true }); }).join("");
+  if (doc.getElementById("rail-xdiv")) doc.getElementById("rail-xdiv").innerHTML = XD.map(function (d, i) { return card(d, "xdiv", i, { rail: true, pin: String(i + 1), pinY: true }); }).join("");
   (function renderXdiv() {
     var chapters = [], byCh = {};
     XD.forEach(function (d) { if (!byCh[d.ch]) { byCh[d.ch] = []; chapters.push(d.ch); } byCh[d.ch].push(d); });
