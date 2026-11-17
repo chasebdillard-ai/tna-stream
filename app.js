@@ -69,6 +69,7 @@
     if (k === "clip") return { kicker: "iMPACT! clip · " + (d.era === "AMC" ? "AMC" : d.era), head: d.title, sub: "" };
     if (k === "lib") { p = splitTitle(d.title); return { kicker: d.c, head: p[0], sub: p[1] }; }
     if (k === "xdiv") return { kicker: d.ch, head: d.title, sub: "" };
+    if (k === "nwa") return { kicker: "NWA", head: d.title, sub: "" }; // NWA:disp
     return { kicker: k === "asylum" ? "Asylum Years" : "Vault", head: d.title, sub: "" };
   }
 
@@ -525,6 +526,13 @@
     }
     doc.getElementById("sheet-scroll").scrollTop = 0;
   }
+  window.__wuPlay = function (it) { // NWA:bridge, NWA hub plays through TNA's player
+    if (!it) return;
+    var src = (window.__nwa && it._sec && window.__nwa.items[it._sec]) || [it];
+    CTX.nwa = src.map(function (x) { return { id: x._id, title: x.title, show: x.show || "NWA", mins: x._mins, year: null, date: null, _k: "nwa", c: "NWA" }; });
+    var pos = Math.max(0, src.indexOf(it));
+    openPlayer("nwa", pos);
+  };
   function closePlayer() {
     if (sheet.hidden) return;
     try { cwStop(); } catch (x) {}
@@ -543,6 +551,15 @@
   var VIEWS = ["home", "impact", "xplosion", "ppv", "asylum", "more", "library", "xdiv"], current = "home";
   var TAB_OF = { library: "more", xdiv: "home" };
   function show(name, jump) {
+    if (window.__nwa) { // NWA:show
+      if (name === "nwa") {
+        closeSearch(true); current = "nwa";
+        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { if (t.getAttribute("data-go") === "nwa") t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
+        try { history.replaceState(null, "", "#nwa"); } catch (e) {}
+        window.__nwa.enter(); window.scrollTo(0, 0); return;
+      }
+      window.__nwa.leave(); var _nv = doc.getElementById("v-nwa"); if (_nv) _nv.hidden = true;
+    }
     if (VIEWS.indexOf(name) < 0) name = "home";
     closeSearch(true);
     current = name;
