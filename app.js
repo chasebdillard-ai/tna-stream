@@ -561,7 +561,7 @@
         closeSearch(true); current = "roh";
         if (window.__cmll) { try { window.__cmll.leave(); } catch (e) {} }
         if (window.__nwa) { try { window.__nwa.leave(); } catch (e) {} var _nv0 = doc.getElementById("v-nwa"); if (_nv0) _nv0.hidden = true; }
-        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { t.removeAttribute("aria-current"); });
+        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { if (t.getAttribute("data-go") === "roh") t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); }); // RH:tab
         try { history.replaceState(null, "", "#roh"); } catch (e) {}
         window.__roh.enter(); window.scrollTo(0, 0); return;
       }

@@ -419,6 +419,7 @@ body{background-image:repeating-linear-gradient(-58deg,rgba(0,0,0,.035) 0 2px,tr
 <link rel="stylesheet" id="cm-css" href="cmll.css" />
 <script id="cm-hash0">window.__tnaHash0=location.hash;</script>
 <link rel="stylesheet" id="rh-css" href="roh.css" />
+<style id="rh-tab-css">@media (max-width:959px){.x-tabs{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}}@media (min-width:960px){.x-tabs{grid-auto-rows:min(76px,calc((100vh - 8px) / 8))!important}.x-tabs .x-tab{height:auto;min-height:0}}.x-tab__logo--roh{height:30px}@media (max-width:959px){.lv-btn{bottom:calc(var(--x-tabh,66px) + 12px + env(safe-area-inset-bottom))!important}}</style>
 </head>
   <body>
     <div class="page" id="top">
@@ -761,6 +762,9 @@ body{background-image:repeating-linear-gradient(-58deg,rgba(0,0,0,.035) 0 2px,tr
         </button>
         <button class="x-tab" type="button" data-go="nwa" aria-label="NWA">
           <img class="x-tab__logo x-tab__logo--nwa" src="nwa_logo.png" alt="" />
+        </button>
+        <button class="x-tab" type="button" data-go="roh" aria-label="Ring of Honor">
+          <img class="x-tab__logo x-tab__logo--roh" src="roh_logo.png" alt="" />
         </button>
         <button class="x-tab" type="button" data-go="more" aria-label="More">
           <span class="x-tab__more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>More</span>
@@ -5402,7 +5406,7 @@ body{background-image:repeating-linear-gradient(-58deg,rgba(0,0,0,.035) 0 2px,tr
         closeSearch(true); current = "roh";
         if (window.__cmll) { try { window.__cmll.leave(); } catch (e) {} }
         if (window.__nwa) { try { window.__nwa.leave(); } catch (e) {} var _nv0 = doc.getElementById("v-nwa"); if (_nv0) _nv0.hidden = true; }
-        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { t.removeAttribute("aria-current"); });
+        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { if (t.getAttribute("data-go") === "roh") t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); }); // RH:tab
         try { history.replaceState(null, "", "#roh"); } catch (e) {}
         window.__roh.enter(); window.scrollTo(0, 0); return;
       }
