@@ -85,7 +85,7 @@
     if (!v) { v = document.createElement("section"); v.className = "x-view"; v.id = "v-cmll"; v.hidden = true; main.appendChild(v); }
     var first = SECS.filter(function (s) { return ITEMS[s.k].length; });
     var lead = META.lead && byId[META.lead];
-    var full = 0; ["viernes", "martes", "domingos", "gdl", "puebla", "eventos", "otras"].forEach(function (k) { full += (ITEMS[k] || []).length; });
+    var full = 0; ["viernes", "martes", "domingos", "gdl", "puebla", "eventos", "otras"].forEach(function (k) { (ITEMS[k] || []).forEach(function (it) { if (it._d >= 2700) full++; }); });
     v.innerHTML =
       '<section class="cm-hero" aria-labelledby="cm-title">' +
         (lead ? '<img class="cm-hero__bg" src="https://i.ytimg.com/vi/' + lead._id + '/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + lead._id + '/hqdefault.jpg\'" />' : "") +
