@@ -1,0 +1,210 @@
+/* MLW (Major League Wrestling) hub for TNA Stream: official MLW palette from mlw.com + the MLW logo (black, MLW red #de1f26 / #ea3340, chrome silver #cfd8dc, white),
+   championship-gold accent only on title rows; squared italic display type (Russo One ~ MLW wordmark) + Barlow Condensed */
+#v-mlw { --ml-black: #060606; --ml-ink: #0f0f10; --ml-card: #161618; --ml-line: rgba(222,31,38,.28); --ml-silver: #cfd8dc; --ml-silver-hi: #f2f3f5; --ml-au: #d4a62a; --ml-gold: #de1f26; --ml-gold-hi: #ff3b42; --ml-gold-lo: #8a0d12; --ml-red: #ffffff; --ml-blue: #9aa4a9; --ml-cream: #f4f4f5; --ml-dim: #a7a9ae;
+  display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; max-width: none; overflow-x: hidden;
+  margin-inline: calc(var(--gutter, 16px) * -1); background: var(--ml-black); color: var(--ml-cream); font-family: "Barlow", system-ui, sans-serif; padding-bottom: 30px; }
+#v-mlw > *, #v-mlw .ml-body > *, #v-mlw .ml-sec { min-width: 0; max-width: 100%; }
+#v-mlw button { font-family: inherit; }
+body.ml-on, body.ml-on .page { background: #060606; }
+body.ml-on .x-top { background: rgba(6,6,6,.94); border-bottom: 2px solid #de1f26; }
+body.ml-on .x-tabs { background: rgba(6,6,6,.96); border-top: 2px solid #de1f26; }
+
+/* hero */
+.ml-hero { position: relative; overflow: hidden; isolation: isolate; min-height: 460px; display: flex; align-items: flex-end; border-bottom: 3px solid var(--ml-gold); }
+.ml-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .5; z-index: -3; filter: saturate(1.1) contrast(1.05); }
+.ml-hero::before { content: ""; position: absolute; inset: 0; z-index: -2;
+  background: radial-gradient(70% 60% at 50% 0%, rgba(222,31,38,.22), transparent 70%), linear-gradient(0deg, #060606 6%, rgba(6,6,6,.72) 48%, rgba(6,6,6,.2)), linear-gradient(90deg, rgba(6,6,6,.92), rgba(6,6,6,.1) 75%); }
+.ml-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
+  background: repeating-linear-gradient(115deg, transparent 0 22px, rgba(222,31,38,.05) 22px 24px), linear-gradient(112deg, transparent 0 74%, var(--ml-red) 74% 76%, transparent 76% 78%, var(--ml-gold) 78% 81%, transparent 81% 83%, var(--ml-blue) 83% 87%, transparent 87%); }
+.ml-hero__in { padding: 40px clamp(18px, 4vw, 56px) 32px; max-width: 760px; }
+.ml-logo { margin: 0 0 6px; }
+.ml-logo img { width: clamp(210px, 32vw, 360px); height: auto; display: block; filter: drop-shadow(0 8px 28px rgba(0,0,0,.7)); }
+.ml-tag { margin: 0 0 6px; font: 400 clamp(26px, 4.6vw, 46px)/.95 "Russo One", "Barlow Condensed", Impact, "Arial Narrow", sans-serif; letter-spacing: .02em; text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 0%, #e9ebee 38%, #8f949b 58%, #e3e5e8 78%, #9a9fa6 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--ml-gold); text-shadow: none; }
+.ml-sub { margin: 0 0 16px; font: 600 14px/1.4 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #e6e7ea; }
+.ml-sub b { color: var(--ml-gold); }
+.ml-feat { margin: 0 0 18px; padding: 12px 14px; border-left: 4px solid var(--ml-gold); background: rgba(0,0,0,.55); max-width: 560px; }
+.ml-feat__t { margin: 2px 0 4px; font: 700 clamp(18px, 2.3vw, 24px)/1.15 "Barlow Condensed", sans-serif; text-transform: uppercase; color: #fff; }
+.ml-feat__m { margin: 0; font-size: 13px; color: var(--ml-dim); }
+.ml-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+.ml-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border: 2px solid rgba(255,255,255,.5); background: rgba(0,0,0,.5); color: #fff; font: 700 15px/1 "Barlow Condensed", sans-serif; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+.ml-btn svg { width: 16px; height: 16px; }
+.ml-btn:hover, .ml-btn:focus-visible { background: #fff; color: #000; outline: none; }
+.ml-btn--red { border-color: transparent; color: #fff; background: linear-gradient(180deg, var(--ml-gold-hi), var(--ml-gold) 55%, var(--ml-gold-lo)); }
+.ml-btn--red:hover, .ml-btn--red:focus-visible { background: #fff; }
+
+/* section dial */
+.ml-dial { position: sticky; top: var(--x-toph, 58px); z-index: 6; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 9px clamp(14px, 4vw, 56px); background: rgba(6,6,6,.95); border-bottom: 1px solid var(--ml-line); }
+.ml-dial::-webkit-scrollbar { display: none; }
+.ml-dial button { flex: none; min-height: 36px; padding: 0 13px; border: 1px solid transparent; background: none; color: var(--ml-dim); font: 600 14px/1 "Barlow Condensed", sans-serif; letter-spacing: .07em; text-transform: uppercase; cursor: pointer; }
+.ml-dial button:hover, .ml-dial button:focus-visible { color: #fff; border-color: var(--ml-gold); outline: none; }
+
+/* sections */
+.ml-body { padding-top: 6px; }
+.ml-sec { padding: 28px 0 4px; scroll-margin-top: 120px; }
+.ml-sec__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 0 clamp(14px, 4vw, 56px) 14px; }
+.ml-kick { margin: 0 0 4px; font: 600 12px/1 "Barlow Condensed", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--ml-gold); }
+#v-mlw h2 { margin: 0; font: 400 clamp(28px, 3.8vw, 44px)/1 "Russo One", "Barlow Condensed", Impact, sans-serif; letter-spacing: .01em; text-transform: uppercase; color: #fff; }
+.ml-sec--star h2::before { content: ""; display: inline-block; width: .62em; height: .62em; margin-right: .3em; vertical-align: .05em; background: var(--ml-gold); clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.ml-sec__blurb { margin: 7px 0 0; max-width: 640px; font-size: 14px; line-height: 1.45; color: var(--ml-dim); }
+.ml-sec__blurb b { color: var(--ml-gold-hi); font-weight: 600; white-space: nowrap; }
+.ml-all, .ml-more { flex: none; min-height: 38px; padding: 0 14px; border: 1px solid rgba(222,31,38,.45); background: none; color: #fff; font: 600 13px/1 "Barlow Condensed", sans-serif; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.ml-all:hover, .ml-more:hover, .ml-all:focus-visible, .ml-more:focus-visible { border-color: var(--ml-gold); background: var(--ml-gold); color: #000; outline: none; }
+.ml-more { display: block; margin: 18px auto 0; min-width: 180px; }
+.ml-rail { list-style: none; margin: 0; padding: 4px clamp(14px, 4vw, 56px) 10px; display: grid; grid-auto-flow: column; grid-auto-columns: clamp(220px, 24vw, 300px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(14px, 4vw, 56px); scrollbar-width: thin; scrollbar-color: #3a1214 transparent; max-width: 100%; }
+.ml-rail > li { scroll-snap-align: start; min-width: 0; }
+.ml-sec.is-grid .ml-rail { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); overflow: visible; }
+.ml-card { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; }
+.ml-card__art { position: relative; display: block; aspect-ratio: 16/9; overflow: hidden; background: var(--ml-card); border: 1px solid rgba(255,255,255,.06); border-bottom: 3px solid transparent; transition: border-color .15s; }
+.ml-card__art img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.ml-card:hover .ml-card__art img, .ml-card:focus-visible .ml-card__art img, .ml-card.tvnav-focus .ml-card__art img { transform: scale(1.05); }
+.ml-card:hover .ml-card__art, .ml-card:focus-visible .ml-card__art, .ml-card.tvnav-focus .ml-card__art { border-bottom-color: var(--ml-gold); }
+.ml-card:focus-visible { outline: 3px solid var(--ml-gold-hi); outline-offset: 3px; }
+.ml-card__dur { position: absolute; right: 6px; bottom: 7px; padding: 3px 6px; background: rgba(0,0,0,.85); color: #fff; font: 600 12px/1 "Barlow Condensed", sans-serif; letter-spacing: .04em; }
+.ml-card__play { position: absolute; left: 10px; bottom: 10px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(180deg, var(--ml-gold-hi), var(--ml-gold)); color: #000; opacity: 0; transform: translateY(6px); transition: .2s; }
+.ml-card__play svg { width: 16px; height: 16px; margin-left: 2px; }
+.ml-card:hover .ml-card__play, .ml-card:focus-visible .ml-card__play, .ml-card.tvnav-focus .ml-card__play { opacity: 1; transform: none; }
+.ml-card__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,.25); }
+.ml-card__bar i { display: block; height: 100%; background: var(--ml-gold); }
+.ml-card__b { display: block; padding: 9px 2px 0; }
+.ml-card__k { display: block; margin-bottom: 3px; font: 600 11px/1 "Barlow Condensed", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--ml-gold); }
+.ml-card__t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font: 600 14px/1.3 "Barlow", sans-serif; color: #f4f4f5; overflow-wrap: anywhere; }
+.ml-foot { margin: 34px clamp(14px, 4vw, 56px) 0; font-size: 12px; color: #7d8086; }
+
+/* home hub tile + More tile */
+.x-hub--mlw { background: radial-gradient(120% 140% at 50% 0%, #2a0406, #060606 65%) !important; border-color: rgba(222,31,38,.55) !important; }
+.x-hub--mlw::before { background: linear-gradient(118deg, transparent 0 66%, #ffffff 66% 72%, transparent 72% 75%, #de1f26 75% 80%, transparent 80% 83%, #9aa4a9 83% 88%, transparent 88%) !important; }
+.x-hub--mlw img { height: 44px !important; }
+.x-libtile--mlw { margin-top: 12px; background: linear-gradient(135deg, #060606, #2a0406 70%, #9aa4a9) !important; border: 1px solid rgba(222,31,38,.5) !important; }
+.x-libtile--mlw img { height: 54px; width: auto; display: block; margin-bottom: 8px; position: relative; }
+
+@media (max-width: 760px) {
+  .ml-hero { min-height: 420px; }
+  .ml-hero__in { padding-top: 26px; }
+  .ml-rail { grid-auto-columns: 72vw; }
+  .ml-sec__head { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .ml-card__art img { transition: none; } }
+body.ml-on .x-foot { display: none; }
+/* TV / short screens (960x540): keep the dial and first rail in view so the remote moves hero -> sections -> cards */
+@media (max-height: 620px) and (min-width: 700px) {
+  .ml-hero { min-height: 0; }
+  .ml-hero__in { padding: 18px clamp(18px, 4vw, 56px) 18px; display: grid; grid-template-columns: auto 1fr; column-gap: 22px; align-items: end; max-width: none; }
+  .ml-logo { grid-row: span 4; margin: 0; }
+  .ml-logo img { width: 190px; }
+  .ml-tag { font-size: 30px; }
+  .ml-sub { margin-bottom: 8px; font-size: 12px; }
+  .ml-feat { margin-bottom: 10px; padding: 6px 10px; }
+  .ml-feat__t { font-size: 17px; }
+  .ml-btn { min-height: 40px; }
+}
+
+/* ---- ROH additions: Teko runs small, bump it; series / year tiles; drill-down pages ---- */
+#v-mlw .ml-kick, #v-mlw .ml-card__k, #v-mlw .ml-dial button, #v-mlw .ml-btn, #v-mlw .ml-all, #v-mlw .ml-more { font-size: 1.12em; }
+#v-mlw h2 { font-weight: 800; font-style: italic; letter-spacing: -.005em; }
+.ml-hero { border-bottom-color: var(--ml-gold); box-shadow: inset 0 -6px 0 -3px var(--ml-silver); }
+.ml-hero::after { background: repeating-linear-gradient(115deg, transparent 0 22px, rgba(255,255,255,.035) 22px 24px), linear-gradient(112deg, transparent 0 74%, #de1f26 74% 79%, transparent 79% 81%, #cfd8dc 81% 83%, transparent 83% 85%, #d4a62a 85% 86%, transparent 86%) !important; }
+.ml-logo img { width: clamp(220px, 30vw, 380px); filter: drop-shadow(0 0 1px rgba(255,255,255,.35)) drop-shadow(0 10px 28px rgba(0,0,0,.8)); }
+.ml-feat { border-left-color: var(--ml-gold); }
+.ml-sub b { color: var(--ml-au); }
+.ml-sec__blurb b { color: var(--ml-silver-hi); }
+.ml-sec--star h2::before { background: var(--ml-au); }
+.ml-card__k.is-approx { color: var(--ml-silver); }
+.ml-card__full { position: absolute; left: 6px; top: 6px; padding: 3px 6px 2px; background: var(--ml-gold); color: #fff; font: 600 12px/1 "Barlow Condensed", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.ml-btn--red { color: #fff !important; }
+.ml-btn--red:hover, .ml-btn--red:focus-visible { background: #fff !important; color: #000 !important; }
+.ml-rail--tiles { grid-auto-columns: clamp(210px, 21vw, 270px); }
+.ml-tile { all: unset; box-sizing: border-box; position: relative; display: block; width: 100%; aspect-ratio: 16/10; overflow: hidden; cursor: pointer; background: #111; border: 1px solid rgba(255,255,255,.08); border-bottom: 3px solid var(--ml-gold); }
+.ml-tile__art { position: absolute; inset: 0; }
+.ml-tile__art img { width: 100%; height: 100%; object-fit: cover; opacity: .55; filter: grayscale(.35) contrast(1.1); transition: transform .35s, opacity .2s; }
+.ml-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.92) 18%, rgba(0,0,0,.25) 70%), linear-gradient(112deg, transparent 0 82%, rgba(222,31,38,.85) 82% 86%, transparent 86% 88%, rgba(201,204,209,.6) 88% 89%, transparent 89%); }
+.ml-tile__in { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 1; display: grid; gap: 3px; }
+.ml-tile__k { font: 600 14px/1 "Barlow Condensed", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--ml-silver); }
+.ml-tile__t { font: 800 italic clamp(20px, 2.1vw, 26px)/1 "Russo One", Impact, sans-serif; text-transform: uppercase; color: #fff; overflow-wrap: anywhere; }
+.ml-tile__y { font: 800 italic 46px/0.9 "Russo One", Impact, sans-serif; color: #fff; -webkit-text-stroke: 1px rgba(222,31,38,.9); }
+.ml-tile__m { font: 600 13px/1.2 "Barlow", sans-serif; color: var(--ml-dim); }
+.ml-tile:hover .ml-tile__art img, .ml-tile:focus-visible .ml-tile__art img, .ml-tile.tvnav-focus .ml-tile__art img { transform: scale(1.06); opacity: .8; }
+.ml-tile:focus-visible, .ml-tile.tvnav-focus { outline: 3px solid #fff; outline-offset: 3px; }
+.ml-detail { padding-bottom: 20px; min-width: 0; }
+.ml-dhead { padding: 22px clamp(14px, 4vw, 56px) 8px; border-bottom: 3px solid var(--ml-gold); background: linear-gradient(180deg, #1a0405, #060606); }
+.ml-back { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; margin: 0 0 14px; padding: 0 14px 0 8px; border: 1px solid rgba(255,255,255,.35); background: none; color: #fff; font: 600 17px/1 "Barlow Condensed", sans-serif; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.ml-back svg { width: 18px; height: 18px; }
+.ml-back:hover, .ml-back:focus-visible { background: #fff; color: #000; outline: none; }
+.ml-dt { font-size: clamp(34px, 5vw, 60px) !important; }
+.ml-ychips, .ml-ysel { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 0 10px; }
+.ml-ychips { padding: 16px clamp(14px, 4vw, 56px) 4px; }
+.ml-ychips button, .ml-ysel button { min-height: 36px; padding: 0 12px; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.04); color: #fff; font: 600 17px/1 "Barlow Condensed", sans-serif; letter-spacing: .06em; cursor: pointer; }
+.ml-ychips button span { color: var(--ml-dim); margin-left: 4px; }
+.ml-ysel button[aria-current] { background: var(--ml-gold); border-color: var(--ml-gold); }
+.ml-ychips button:hover, .ml-ychips button:focus-visible, .ml-ysel button:hover, .ml-ysel button:focus-visible { background: #fff; color: #000; outline: none; }
+.ml-grp { padding: 22px clamp(14px, 4vw, 56px) 4px; scroll-margin-top: 70px; }
+.ml-grp h3 { margin: 0 0 12px; font: 800 italic clamp(26px, 3vw, 36px)/1 "Russo One", Impact, sans-serif; text-transform: uppercase; color: #fff; border-left: 5px solid var(--ml-gold); padding-left: 10px; }
+.ml-grp h3 span { font: 600 14px/1 "Barlow", sans-serif; font-style: normal; text-transform: none; color: var(--ml-dim); margin-left: 6px; }
+.ml-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 16px 14px; }
+.ml-grid > li { min-width: 0; }
+.x-hub--mlw { background: radial-gradient(120% 140% at 50% 0%, #3a0608, #060606 65%) !important; border-color: rgba(222,31,38,.65) !important; }
+.x-hub--mlw::before { background: linear-gradient(118deg, transparent 0 68%, #de1f26 68% 76%, transparent 76% 79%, #cfd8dc 79% 82%, transparent 82%) !important; }
+.x-hub--mlw img { height: 46px !important; }
+.x-libtile--mlw { margin-top: 12px; background: linear-gradient(135deg, #060606, #3a0608 70%, #5b5f66) !important; border: 1px solid rgba(222,31,38,.55) !important; }
+.x-libtile--mlw img { height: 58px; width: auto; display: block; margin-bottom: 8px; position: relative; }
+@media (max-width: 760px) { .ml-rail--tiles { grid-auto-columns: 62vw; } .ml-tile__y { font-size: 40px; } .ml-grid { grid-template-columns: 1fr 1fr; gap: 14px 10px; } .ml-grid .ml-card__t { font-size: 13px; } }
+@media (max-width: 360px) { .ml-grid { grid-template-columns: 1fr; } }
+.ml-tag { font-weight: 800 !important; font-style: italic; letter-spacing: .01em !important; }
+.ml-ychips button, .ml-ysel button { white-space: nowrap; flex: none; }
+@media (max-width: 760px) {
+  .ml-ychips, .ml-ysel { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .ml-ychips::-webkit-scrollbar, .ml-ysel::-webkit-scrollbar { display: none; }
+}
+
+/* ---- MLW overrides (2026-11-17) ---- */
+#v-mlw { --ml-black: #050505; --ml-gold: #de1f26; --ml-gold-hi: #ff3b42; --ml-gold-lo: #8a0d12; --ml-silver: #cfd8dc; --ml-au: #d4a62a; --ml-line: rgba(222,31,38,.32); font-family: "Barlow", system-ui, sans-serif; }
+body.ml-on, body.ml-on .page { background: #050505; }
+body.ml-on .x-top { background: rgba(5,5,5,.95); border-bottom: 2px solid #de1f26; }
+body.ml-on .x-tabs { background: rgba(5,5,5,.96); border-top: 2px solid #de1f26; }
+body.ml-on .x-foot { display: none; }
+#v-mlw h2, .ml-tile__t, .ml-grp h3, .ml-tile__y { font-family: "Russo One", "Barlow Condensed", Impact, sans-serif !important; font-weight: 400 !important; font-style: italic; letter-spacing: .01em; }
+#v-mlw h2 { font-size: clamp(24px, 3.2vw, 38px); transform: skewX(-4deg); transform-origin: left; }
+.ml-grp h3 { font-size: clamp(22px, 2.6vw, 32px) !important; }
+.ml-tile__y { font-size: 42px !important; -webkit-text-stroke: 0; text-shadow: 3px 3px 0 #de1f26; }
+.ml-kick, .ml-card__k, .ml-dial button, .ml-btn, .ml-all, .ml-more, .ml-back, .ml-ychips button, .ml-ysel button, .ml-sub, .ml-tile__k, .ml-card__dur, .ml-card__full { font-family: "Barlow Condensed", "Arial Narrow", sans-serif !important; font-weight: 700 !important; }
+.ml-hero { min-height: 470px; border-bottom: 4px solid #de1f26; box-shadow: inset 0 -7px 0 -4px #cfd8dc; }
+.ml-hero__bg { opacity: .78 !important; filter: none !important; object-position: center 40%; }
+.ml-hero::before { background: linear-gradient(0deg, #050505 4%, rgba(5,5,5,.6) 42%, rgba(5,5,5,.05)), linear-gradient(90deg, rgba(5,5,5,.94) 8%, rgba(5,5,5,.25) 70%, rgba(5,5,5,0)) !important; }
+.ml-hero::after { opacity: 1 !important; background: repeating-linear-gradient(0deg, transparent 0 7px, rgba(0,0,0,.22) 7px 9px), linear-gradient(105deg, transparent 0 71%, rgba(222,31,38,.95) 71% 77%, transparent 77% 78.5%, rgba(207,216,220,.85) 78.5% 79.5%, transparent 79.5%) !important; }
+.ml-logo img { width: clamp(260px, 44vw, 520px) !important; filter: drop-shadow(0 6px 22px rgba(0,0,0,.85)) !important; }
+.ml-tag { font-family: "Russo One", Impact, sans-serif !important; font-weight: 400 !important; font-style: italic; font-size: clamp(22px, 3.6vw, 36px) !important; background: none !important; -webkit-text-fill-color: #fff !important; color: #fff !important; text-shadow: 3px 3px 0 #de1f26; }
+.ml-sub { font-size: 15px !important; letter-spacing: .1em; }
+.ml-sub b { color: #de1f26 !important; }
+.ml-feat { border-left-color: #de1f26 !important; background: rgba(0,0,0,.62); }
+.ml-feat__t { font-family: "Barlow Condensed", sans-serif !important; font-weight: 800 !important; font-style: italic; }
+.ml-btn { clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%); font-size: 17px !important; letter-spacing: .06em; }
+.ml-btn--red { background: linear-gradient(180deg, #ff3b42, #de1f26 55%, #8a0d12) !important; }
+.ml-dial { border-bottom: 2px solid rgba(222,31,38,.55); }
+.ml-dial button { font-size: 16px !important; }
+.ml-dial button:hover, .ml-dial button:focus-visible { background: #de1f26; border-color: #de1f26; color: #fff; }
+.ml-kick { color: #ff3b42 !important; font-size: 14px !important; letter-spacing: .2em; }
+.ml-card__art { border-bottom-width: 3px; }
+.ml-card__full { background: #de1f26 !important; color: #fff !important; font-size: 13px !important; transform: skewX(-8deg); }
+.ml-card__k { color: #ff3b42 !important; font-size: 13px !important; }
+.ml-card__k.is-approx { color: #cfd8dc !important; }
+.ml-card__dur { font-size: 13px !important; }
+.ml-card__t { font-family: "Barlow", sans-serif; }
+.ml-sec--gold .ml-kick, .ml-sec--gold .ml-card__k:not(.is-approx) { color: #d4a62a !important; }
+.ml-sec--gold h2::before { content: ""; display: inline-block; width: .5em; height: .5em; margin-right: .32em; vertical-align: .08em; background: linear-gradient(135deg, #f3d36b, #d4a62a 55%, #8e6a12); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.ml-sec--fusion .ml-sec__head { border-left: 6px solid #de1f26; margin-left: clamp(14px, 4vw, 56px); padding-left: 12px !important; }
+.ml-sec--star h2::before { background: #de1f26 !important; }
+.ml-tile { border-bottom-color: #de1f26 !important; }
+.ml-tile::after { background: linear-gradient(0deg, rgba(0,0,0,.94) 18%, rgba(0,0,0,.2) 70%), linear-gradient(105deg, transparent 0 80%, rgba(222,31,38,.9) 80% 85%, transparent 85% 86.5%, rgba(207,216,220,.7) 86.5% 87.5%, transparent 87.5%) !important; }
+.ml-dhead { background: linear-gradient(180deg, #2a0406, #050505) !important; border-bottom-color: #de1f26 !important; }
+.ml-grp h3 { border-left-color: #de1f26 !important; }
+.ml-ysel button[aria-current] { background: #de1f26 !important; border-color: #de1f26 !important; }
+.ml-all, .ml-more { border-color: rgba(222,31,38,.6) !important; }
+.ml-all:hover, .ml-more:hover, .ml-all:focus-visible, .ml-more:focus-visible { background: #de1f26 !important; border-color: #de1f26 !important; color: #fff !important; }
+/* home hub tile + More tile + tab */
+.x-hub--mlw { background: linear-gradient(105deg, #050505 0 58%, #de1f26 58% 70%, #050505 70% 72%, #cfd8dc 72% 73%, #050505 73%) !important; border-color: rgba(222,31,38,.7) !important; }
+.x-hub--mlw::before { background: repeating-linear-gradient(0deg, transparent 0 6px, rgba(0,0,0,.25) 6px 8px) !important; }
+.x-hub--mlw img { height: 40px !important; width: auto !important; max-width: 86%; object-fit: contain; position: relative; }
+.x-libtile--mlw { margin-top: 12px; background: linear-gradient(115deg, #050505 0 62%, #8a0d12 62% 74%, #050505 74% 76%, #cfd8dc 76% 77%, #1a1a1a 77%) !important; border: 1px solid rgba(222,31,38,.6) !important; }
+.x-libtile--mlw img { height: 44px; width: auto; max-width: 100%; display: block; margin-bottom: 10px; position: relative; }
+@media (max-width: 760px) { .ml-hero { min-height: 430px; } .ml-logo img { width: min(86vw, 360px) !important; } }
+@media (max-height: 620px) and (min-width: 700px) { .ml-hero { min-height: 0; } .ml-logo img { width: 300px !important; } .ml-tag { font-size: 24px !important; } }

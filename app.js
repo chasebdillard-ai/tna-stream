@@ -69,6 +69,7 @@
     if (k === "clip") return { kicker: "iMPACT! clip · " + (d.era === "AMC" ? "AMC" : d.era), head: d.title, sub: "" };
     if (k === "lib") { p = splitTitle(d.title); return { kicker: d.c, head: p[0], sub: p[1] }; }
     if (k === "xdiv") return { kicker: d.ch, head: d.title, sub: "" };
+    if (k === "mlw") return { kicker: "MLW" + (d.show && d.show !== "MLW" ? " · " + d.show.replace(/^MLW\s*·?\s*/, "") : ""), head: d.title, sub: "" }; // ML:disp
     if (k === "roh") return { kicker: "Ring of Honor" + (d.show && d.show !== "ROH" ? " · " + d.show.replace(/^ROH\s*·?\s*/, "") : ""), head: d.title, sub: "" }; // RH:disp
     if (k === "cmll") return { kicker: "CMLL" + (d.show && d.show !== "CMLL" ? " · " + d.show.replace(/^CMLL\s*·?\s*/, "") : ""), head: d.title, sub: "" }; // CM:disp
     if (k === "nwa") return { kicker: "NWA", head: d.title, sub: "" }; // NWA:disp
@@ -538,6 +539,7 @@
   };
   window.__cmPlay = function (list, pos) { CTX.cmll = list; openPlayer("cmll", pos || 0); }; // CM:bridge, CMLL hub plays through TNA's player
   window.__rhPlay = function (list, pos) { CTX.roh = list; openPlayer("roh", pos || 0); }; // RH:bridge, ROH hub plays through TNA's player
+  window.__mlwPlay = function (list, pos) { CTX.mlw = list; openPlayer("mlw", pos || 0); }; // ML:bridge, MLW hub plays through TNA's player
   function closePlayer() {
     if (sheet.hidden) return;
     try { cwStop(); } catch (x) {}
@@ -556,6 +558,18 @@
   var VIEWS = ["home", "impact", "xplosion", "ppv", "asylum", "more", "library", "xdiv"], current = "home";
   var TAB_OF = { library: "more", xdiv: "home" };
   function show(name, jump) {
+    if (window.__mlw) { // ML:show, MLW hub
+      if (name === "mlw") {
+        closeSearch(true); current = "mlw";
+        if (window.__roh) { try { window.__roh.leave(); } catch (e) {} }
+        if (window.__cmll) { try { window.__cmll.leave(); } catch (e) {} }
+        if (window.__nwa) { try { window.__nwa.leave(); } catch (e) {} var _nv1 = doc.getElementById("v-nwa"); if (_nv1) _nv1.hidden = true; }
+        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { if (t.getAttribute("data-go") === "mlw") t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
+        try { history.replaceState(null, "", "#mlw"); } catch (e) {}
+        window.__mlw.enter(); window.scrollTo(0, 0); return;
+      }
+      window.__mlw.leave();
+    }
     if (window.__roh) { // RH:show, Ring of Honor hub
       if (name === "roh") {
         closeSearch(true); current = "roh";
@@ -624,6 +638,7 @@
   });
   window.__tnaSearchAdd = function (list) { list.forEach(function (d) { d._q = norm(d.title + " " + (d.date ? fmtDate(d.date) : "") + " " + (d.year || "") + " cmll lucha libre " + (d.show || "")); ALL.push(d); }); }; // CM:search
   window.__tnaSearchAddRoh = function (list) { list.forEach(function (d) { d._q = norm(d.title + " " + (d.date ? fmtDate(d.date) : "") + " " + (d.year || "") + " ring of honor roh " + (d.show || "")); ALL.push(d); }); }; // RH:search
+  window.__tnaSearchAddMlw = function (list) { list.forEach(function (d) { d._q = norm(d.title + " " + (d.date ? fmtDate(d.date) : "") + " " + (d.year || "") + " mlw major league wrestling " + (d.show || "")); ALL.push(d); }); }; // ML:search
   var MAX = 240;
   function runSearch() {
     var q = norm(sInput.value);
