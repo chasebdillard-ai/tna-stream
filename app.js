@@ -69,6 +69,7 @@
     if (k === "clip") return { kicker: "iMPACT! clip · " + (d.era === "AMC" ? "AMC" : d.era), head: d.title, sub: "" };
     if (k === "lib") { p = splitTitle(d.title); return { kicker: d.c, head: p[0], sub: p[1] }; }
     if (k === "xdiv") return { kicker: d.ch, head: d.title, sub: "" };
+    if (k === "cmll") return { kicker: "CMLL" + (d.show && d.show !== "CMLL" ? " · " + d.show.replace(/^CMLL\s*·?\s*/, "") : ""), head: d.title, sub: "" }; // CM:disp
     if (k === "nwa") return { kicker: "NWA", head: d.title, sub: "" }; // NWA:disp
     return { kicker: k === "asylum" ? "Asylum Years" : "Vault", head: d.title, sub: "" };
   }
@@ -444,6 +445,7 @@
     e.preventDefault(); e.stopPropagation();
     cwRemove(b.getAttribute("data-cwx")); drawCW();
   }, true);
+  window.__tnaIdx = function (list) { list.forEach(function (d) { if (d && d.id && !IDX[d.id]) IDX[d.id] = d; }); try { drawCW(); } catch (e) {} }; // CM:idx
   var cwStop = function () {};
   function cwWatch(f, id) {
     var cwT = -1, cwD = 0, heard = false, saved = -1;
@@ -533,6 +535,7 @@
     var pos = Math.max(0, src.indexOf(it));
     openPlayer("nwa", pos);
   };
+  window.__cmPlay = function (list, pos) { CTX.cmll = list; openPlayer("cmll", pos || 0); }; // CM:bridge, CMLL hub plays through TNA's player
   function closePlayer() {
     if (sheet.hidden) return;
     try { cwStop(); } catch (x) {}
@@ -551,6 +554,16 @@
   var VIEWS = ["home", "impact", "xplosion", "ppv", "asylum", "more", "library", "xdiv"], current = "home";
   var TAB_OF = { library: "more", xdiv: "home" };
   function show(name, jump) {
+    if (window.__cmll) { // CM:show, CMLL hub
+      if (name === "cmll") {
+        closeSearch(true); current = "cmll";
+        if (window.__nwa) { try { window.__nwa.leave(); } catch (e) {} }
+        [].slice.call(doc.querySelectorAll(".x-tab")).forEach(function (t) { t.removeAttribute("aria-current"); });
+        try { history.replaceState(null, "", "#cmll"); } catch (e) {}
+        window.__cmll.enter(); window.scrollTo(0, 0); return;
+      }
+      window.__cmll.leave();
+    }
     if (window.__nwa) { // NWA:show
       if (name === "nwa") {
         closeSearch(true); current = "nwa";
@@ -596,6 +609,7 @@
     var tag = d._k === "lib" ? "library " + d.c : d._k === "xdiv" ? "x division playlist " + d.ch : (d.show || "impact clip");
     d._q = norm(d.title + " " + (d.event || "") + " " + (d.year || "") + " " + (d.date ? fmtDate(d.date) : "") + " " + tag + " " + (d.era || ""));
   });
+  window.__tnaSearchAdd = function (list) { list.forEach(function (d) { d._q = norm(d.title + " " + (d.date ? fmtDate(d.date) : "") + " " + (d.year || "") + " cmll lucha libre " + (d.show || "")); ALL.push(d); }); }; // CM:search
   var MAX = 240;
   function runSearch() {
     var q = norm(sInput.value);
